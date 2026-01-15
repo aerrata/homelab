@@ -1,0 +1,22 @@
+name: jellyfin
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:${JELLYFIN_VERSION}
+    restart: unless-stopped
+    user: '568:568'
+    environment:
+      UMASK: '002'
+      JELLYFIN_PublishedServerUrl: ${JELLYFIN_PUBLISHED_URL}
+    ports:
+      - "${JELLYFIN_PORT}:8096/tcp"
+      - "7359:7359/udp"
+    volumes:
+      - "${JELLYFIN_CONFIG_PATH}:/config"
+      - "${JELLYFIN_CACHE_PATH}:/cache"
+      - "${JELLYFIN_FONTS_PATH}:/usr/local/share/fonts/custom:ro"
+      - "${JELLYFIN_MEDIA_PATH}:/media"
+    labels:
+      - tsdproxy.enable=true
+      - tsdproxy.name=jellyfin
+      - tsdproxy.ephemeral=true
+      - tsdproxy.container_port=8096

@@ -1,0 +1,17 @@
+name: vaultwarden
+services:
+  vaultwarden:
+    image: vaultwarden/server:${VAULTWARDEN_VERSION}
+    restart: unless-stopped
+    user: '568:568'
+    environment:
+      DOMAIN: ${VAULTWARDEN_DOMAIN}
+    ports:
+      - "${VAULTWARDEN_PORT}:80"
+    volumes:
+      - "${VAULTWARDEN_DATA_PATH}:/data"
+    labels:
+      - tsdproxy.enable=true
+      - tsdproxy.name=vaultwarden
+      - tsdproxy.ephemeral=true
+      - tsdproxy.container_port=80

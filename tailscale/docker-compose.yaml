@@ -1,0 +1,34 @@
+name: tailscale
+services:
+  tailscale:
+    image: tailscale/tailscale:${TAILSCALE_VERSION}
+    restart: unless-stopped
+    hostname: ${TAILSCALE_HOSTNAME}
+    network_mode: host
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_MODULE
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      UMASK: '002'
+      TS_AUTHKEY: ${TS_AUTHKEY}
+      TS_STATE_DIR: /var/lib/tailscale
+      TS_SOCKET: /var/run/tailscale/tailscaled.sock
+      TS_USERSPACE: "false"
+      TS_ACCEPT_DNS: "false"
+      TS_AUTH_ONCE: "true"
+    volumes:
+      - "${TAILSCALE_STATE_PATH}:/var/lib/tailscale"
+    healthcheck:
+      test: tailscale status
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 15s

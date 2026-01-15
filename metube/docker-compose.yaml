@@ -1,0 +1,17 @@
+name: metube
+services:
+  metube:
+    image: ghcr.io/alexta69/metube:${METUBE_VERSION}
+    restart: unless-stopped
+    user: '568:568'
+    environment:
+      UMASK: '002'
+    ports:
+      - "${METUBE_PORT}:8081"
+    volumes:
+      - "${METUBE_DOWNLOADS_PATH}:/downloads"
+    labels:
+      - tsdproxy.enable=true
+      - tsdproxy.name=metube
+      - tsdproxy.ephemeral=true
+      - tsdproxy.container_port=8081

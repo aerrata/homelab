@@ -1,0 +1,17 @@
+name: adguard-home
+services:
+  adguard-home:
+    image: adguard/adguardhome:${ADGUARD_VERSION}
+    restart: unless-stopped
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "${ADGUARD_PORT}:3000"
+    volumes:
+      - "${ADGUARD_CONFIG_PATH}:/opt/adguardhome/conf"
+      - "${ADGUARD_CONFIG_PATH}:/opt/adguardhome/work"
+    labels:
+      - tsdproxy.enable=true
+      - tsdproxy.name=adguard-home
+      - tsdproxy.ephemeral=true
+      - tsdproxy.container_port=3000

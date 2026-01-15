@@ -1,0 +1,60 @@
+name: immich
+networks:
+  immich-bridge:
+    driver: bridge
+services:
+  immich:
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION}
+    restart: unless-stopped
+    user: '568:568'
+    depends_on:
+      - redis
+      - postgres
+    environment:
+      UMASK: '002'
+      UPLOAD_LOCATION: /mnt/hdd/data/photos
+      DB_DATA_LOCATION: /var/lib/postgresql/data
+      DB_HOSTNAME: postgres
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_USERNAME: postgres
+      DB_DATABASE_NAME: immich
+    ports:
+      - "${IMMICH_PORT}:2283"
+    volumes:
+      - "${IMMICH_CONFIG_PATH}:/data"
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - immich-bridge
+    labels:
+      - tsdproxy.enable=true
+      - tsdproxy.name=immich
+      - tsdproxy.ephemeral=true
+      - tsdproxy.container_port=2283
+  machine-learning:
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_ML_VERSION}
+    restart: unless-stopped
+    volumes:
+      - "${IMMICH_CACHE_PATH}:/cache"
+    networks:
+      - immich-bridge
+  postgres:
+    image: ghcr.io/immich-app/postgres:${POSTGRES_VERSION}
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: postgres
+      POSTGRES_DB: immich
+      POSTGRES_INITDB_ARGS: "--data-checksums"
+      DB_STORAGE_TYPE: HDD
+    shm_size: 128mb
+    volumes:
+      - "${POSTGRES_DATA_PATH}:/var/lib/postgresql/data"
+    networks:
+      - immich-bridge
+  redis:
+    image: docker.io/valkey/valkey:${REDIS_VERSION}
+    restart: unless-stopped
+    healthcheck:
+      test: redis-cli ping || exit 1
+    networks:
+      - immich-bridge

@@ -1,0 +1,19 @@
+name: kiwix
+services:
+  kiwix:
+    image: ghcr.io/kiwix/kiwix-serve:${KIWIX_VERSION}
+    restart: unless-stopped
+    user: '568:568'
+    command:
+      - "*.zim"
+    environment:
+      UMASK: '002'
+    ports:
+      - "${KIWIX_PORT}:8080"
+    volumes:
+      - "${KIWIX_DATA_PATH}:/data"
+    labels:
+      - tsdproxy.enable=true
+      - tsdproxy.name=kiwix
+      - tsdproxy.ephemeral=true
+      - tsdproxy.container_port=8080

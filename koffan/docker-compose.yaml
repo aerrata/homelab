@@ -1,0 +1,27 @@
+name: koffan
+services:
+  koffan:
+    image: ghcr.io/pansalut/koffan:${KOFFAN_VERSION}
+    restart: unless-stopped
+    user: '568:568'
+    expose:
+      - "80"
+    environment:
+      APP_ENV: production
+      APP_PASSWORD: ${KOFFAN_APP_PASSWORD}
+      PORT: 80
+      DB_PATH: /data/shopping.db
+    ports:
+      - "${KOFFAN_PORT}:80"
+    volumes:
+      - "${KOFFAN_DATA_PATH}:/data"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:80/login"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    labels:
+      - tsdproxy.enable=true
+      - tsdproxy.name=koffan
+      - tsdproxy.ephemeral=true
+      - tsdproxy.container_port=80

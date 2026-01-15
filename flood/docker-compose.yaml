@@ -1,0 +1,41 @@
+name: flood
+networks:
+  flood-bridge:
+    driver: bridge
+services:
+  flood:
+    image: jesec/flood:${FLOOD_VERSION}
+    restart: unless-stopped
+    user: '568:568'
+    command: '--port 3001 --allowedpath /data'
+    environment:
+      HOME: /config
+      UMASK: '002'
+    ports:
+      - "${FLOOD_PORT}:3001"
+    volumes:
+      - "${FLOOD_CONFIG_PATH}:/config"
+      - "${DOWNLOADS_PATH}:/data"
+    networks:
+      - flood-bridge
+    labels:
+      - tsdproxy.enable=true
+      - tsdproxy.name=flood
+      - tsdproxy.ephemeral=true
+      - tsdproxy.container_port=3001
+  rtorrent:
+    image: jesec/rtorrent:${RTORRENT_VERSION}
+    restart: unless-stopped
+    user: '568:568'
+    hostname: rtorrent
+    command: '-o network.port_range.set=6881-6881,system.daemon.set=true'
+    environment:
+      HOME: /config
+      UMASK: '002'
+    ports:
+      - "6881:6881"
+    volumes:
+      - "${FLOOD_CONFIG_PATH}:/config"
+      - "${FLOOD_DOWNLOADS_PATH}:/data"
+    networks:
+      - flood-bridge
