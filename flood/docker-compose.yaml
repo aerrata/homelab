@@ -15,7 +15,7 @@ services:
       - "${FLOOD_PORT}:3001"
     volumes:
       - "${FLOOD_CONFIG_PATH}:/config"
-      - "${DOWNLOADS_PATH}:/data"
+      - "${FLOOD_DOWNLOADS_PATH}:/data"
     networks:
       - flood-bridge
     labels:
