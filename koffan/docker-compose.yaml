@@ -3,7 +3,7 @@ services:
   koffan:
     image: ghcr.io/pansalut/koffan:${KOFFAN_VERSION}
     restart: unless-stopped
-    user: '568:568'
+    user: '1000:1000'
     expose:
       - "80"
     environment:

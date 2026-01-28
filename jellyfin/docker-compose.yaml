@@ -3,7 +3,7 @@ services:
   jellyfin:
     image: jellyfin/jellyfin:${JELLYFIN_VERSION}
     restart: unless-stopped
-    user: '568:568'
+    user: '1000:1000'
     environment:
       UMASK: '002'
       JELLYFIN_PublishedServerUrl: ${JELLYFIN_PUBLISHED_URL}

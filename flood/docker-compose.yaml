@@ -6,7 +6,7 @@ services:
   flood:
     image: jesec/flood:${FLOOD_VERSION}
     restart: unless-stopped
-    user: '568:568'
+    user: '1000:1000'
     command: '--port 3001 --allowedpath /data'
     environment:
       HOME: /config
@@ -26,7 +26,7 @@ services:
   rtorrent:
     image: jesec/rtorrent:${RTORRENT_VERSION}
     restart: unless-stopped
-    user: '568:568'
+    user: '1000:1000'
     hostname: rtorrent
     command: '-o network.port_range.set=6881-6881,system.daemon.set=true'
     environment:

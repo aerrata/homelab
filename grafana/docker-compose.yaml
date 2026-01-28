@@ -6,7 +6,7 @@ services:
   grafana:
     image: grafana/grafana:${GRAFANA_VERSION}
     restart: unless-stopped
-    user: 568:568
+    user: 1000:1000
     ports:
       - "${GRAFANA_PORT}:3000"
     networks:
@@ -24,7 +24,7 @@ services:
   prometheus:
     image: prom/prometheus:${PROMETHEUS_VERSION}
     restart: unless-stopped
-    user: 568:568
+    user: 1000:1000
     ports:
       - "9090:9090"
     networks:

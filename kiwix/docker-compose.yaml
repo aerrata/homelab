@@ -3,7 +3,7 @@ services:
   kiwix:
     image: ghcr.io/kiwix/kiwix-serve:${KIWIX_VERSION}
     restart: unless-stopped
-    user: '568:568'
+    user: '1000:1000'
     command:
       - "*.zim"
     environment:

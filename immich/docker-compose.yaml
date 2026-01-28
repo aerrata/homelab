@@ -6,7 +6,7 @@ services:
   immich:
     image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION}
     restart: unless-stopped
-    user: '568:568'
+    user: '1000:1000'
     depends_on:
       - redis
       - postgres

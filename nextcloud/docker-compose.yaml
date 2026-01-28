@@ -89,7 +89,7 @@ services:
     restart: unless-stopped
     security_opt:
       - no-new-privileges=true
-    user: '568:568'
+    user: '1000:1000'
   postgres:
     image: postgres:${POSTGRES_VERSION}
     environment:
@@ -128,7 +128,7 @@ services:
         - ping
       timeout: 5s
     restart: unless-stopped
-    user: '568:568'
+    user: '1000:1000'
     volumes:
       - redis-data:/data
 volumes:
