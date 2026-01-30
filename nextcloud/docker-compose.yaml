@@ -1,6 +1,6 @@
 name: nextcloud
 services:
-  app:
+  nextcloud:
     image: nextcloud:${NEXTCLOUD_VERSION}
     cap_add:
       - CHOWN
