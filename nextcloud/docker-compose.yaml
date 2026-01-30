@@ -128,7 +128,7 @@ services:
         - ping
       timeout: 5s
     restart: unless-stopped
-    user: '1000:1000'
+    user: '0:0'
     volumes:
       - redis-data:/data
 volumes:
