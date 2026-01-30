@@ -25,7 +25,7 @@ Docker Compose definitions for self-hosted applications used in my homelab.
 Each service has its own directory with a `docker-compose.yaml` file. To start a service:
 
 ```bash
-git clone https://github.com/sidmani/homelab.git
+git clone https://github.com/aerrata/homelab.git
 cd homelab/<service-name>
 cp .env.example .env
 # Edit .env and adjust variables as needed
