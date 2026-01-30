@@ -4,8 +4,6 @@ services:
     image: ghcr.io/pansalut/koffan:${KOFFAN_VERSION}
     restart: unless-stopped
     user: '1000:1000'
-    expose:
-      - "80"
     environment:
       APP_ENV: production
       APP_PASSWORD: ${KOFFAN_APP_PASSWORD}
