@@ -11,6 +11,7 @@ services:
     depends_on:
       - redis
       - postgres
+      - tailscale
     environment:
       UMASK: '002'
       UPLOAD_LOCATION: /mnt/hdd/data/photos

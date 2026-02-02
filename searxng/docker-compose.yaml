@@ -13,6 +13,8 @@ services:
       - "${SEARXNG_CONFIG_PATH}:/etc/searxng:rw"
       - searxng-data:/var/cache/searxng:rw
     network_mode: service:tailscale
+    depends_on:
+      - tailscale
   redis:
     image: docker.io/valkey/valkey:${VALKEY_VERSION}
     restart: unless-stopped
