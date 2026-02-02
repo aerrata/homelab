@@ -2,7 +2,7 @@ name: jellyfin
 configs:
   serve.json:
     content: |
-      {"TCP":{"443":{"HTTPS":true}},"Web":{"$${TS_CERT_DOMAIN}:443":{"Handlers":{"/":{"Proxy":"http://127.0.0.1:8096"}}}},"AllowFunnel":{"$${TS_CERT_DOMAIN}:443":false}}
+      {"TCP":{"443":{"HTTPS":true}},"Web":{"$${TS_CERT_DOMAIN}:443":{"Handlers":{"/":{"Proxy":"http://127.0.0.1:${TAILSCALE_PORT}"}}}},"AllowFunnel":{"$${TS_CERT_DOMAIN}:443":false}}
 services:
   jellyfin:
     image: jellyfin/jellyfin:${JELLYFIN_VERSION}
