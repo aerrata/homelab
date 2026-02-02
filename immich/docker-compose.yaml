@@ -22,6 +22,7 @@ services:
     volumes:
       - "${IMMICH_CONFIG_PATH}:/data"
       - /etc/localtime:/etc/localtime:ro
+    network_mode: service:tailscale
   machine-learning:
     image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_ML_VERSION}
     restart: unless-stopped
