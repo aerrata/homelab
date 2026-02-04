@@ -18,6 +18,7 @@ Docker Compose definitions for self-hosted applications used in my homelab.
 | [metube](metube/) | Web UI for yt-dlp video downloader |
 | [nextcloud](nextcloud/) | Self-hosted cloud storage and collaboration platform |
 | [searxng](searxng/) | Privacy-respecting metasearch engine |
+| [stirling-pdf](stirling-pdf/) | Powerful, open-source PDF editing platform |
 | [vaultwarden](vaultwarden/) | Bitwarden-compatible password manager |
 
 ## Usage
