@@ -7,11 +7,11 @@ services:
   flood:
     image: jesec/flood:${FLOOD_VERSION}
     restart: unless-stopped
-    user: '1000:1000'
+    user: "${FLOOD_USER}"
     command: '--port 3001 --allowedpath /data'
     environment:
+      UMASK: "002"
       HOME: /config
-      UMASK: '002'
     volumes:
       - "${FLOOD_CONFIG_PATH}:/config"
       - "${FLOOD_DOWNLOADS_PATH}:/data"
@@ -19,21 +19,21 @@ services:
   rtorrent:
     image: jesec/rtorrent:${RTORRENT_VERSION}
     restart: unless-stopped
-    user: '1000:1000'
+    user: "${RTORRENT_USER}"
     hostname: rtorrent
     command: '-o network.port_range.set=6881-6881,system.daemon.set=true'
     environment:
+      UMASK: "002"
       HOME: /config
-      UMASK: '002'
     ports:
-      - "6881:6881"
+      - "${RTORRENT_PORT}:6881"
     volumes:
       - "${FLOOD_CONFIG_PATH}:/config"
       - "${FLOOD_DOWNLOADS_PATH}:/data"
   tailscale:
     image: tailscale/tailscale:${TAILSCALE_VERSION}
     restart: unless-stopped
-    hostname: ${TAILSCALE_HOSTNAME}
+    hostname: ${TAILSCALE_MACHINE_NAME}
     ports:
       - "${FLOOD_PORT}:3001"
     environment:

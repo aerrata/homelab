@@ -7,18 +7,18 @@ services:
   kiwix:
     image: ghcr.io/kiwix/kiwix-serve:${KIWIX_VERSION}
     restart: unless-stopped
-    user: '1000:1000'
+    user: "${KIWIX_USER}"
     command:
       - "*.zim"
     environment:
-      UMASK: '002'
+      UMASK: "002"
     volumes:
-      - "${KIWIX_DATA_PATH}:/data"
+      - "${KIWIX_MEDIA_PATH}:/data"
     network_mode: service:tailscale
   tailscale:
     image: tailscale/tailscale:${TAILSCALE_VERSION}
     restart: unless-stopped
-    hostname: ${TAILSCALE_HOSTNAME}
+    hostname: ${TAILSCALE_MACHINE_NAME}
     ports:
       - "${KIWIX_PORT}:8080"
     environment:

@@ -7,10 +7,10 @@ services:
   koffan:
     image: ghcr.io/pansalut/koffan:${KOFFAN_VERSION}
     restart: unless-stopped
-    user: '1000:1000'
+    user: "${KOFFAN_USER}"
     environment:
       APP_ENV: production
-      APP_PASSWORD: ${KOFFAN_APP_PASSWORD}
+      APP_PASSWORD: ${KOFFAN_PASSWORD}
       PORT: 80
       DB_PATH: /data/shopping.db
     volumes:
@@ -24,7 +24,7 @@ services:
   tailscale:
     image: tailscale/tailscale:${TAILSCALE_VERSION}
     restart: unless-stopped
-    hostname: ${TAILSCALE_HOSTNAME}
+    hostname: ${TAILSCALE_MACHINE_NAME}
     ports:
       - "${KOFFAN_PORT}:80"
     environment:

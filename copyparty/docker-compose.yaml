@@ -7,11 +7,12 @@ services:
   copyparty:
     image: copyparty/ac:${COPYPARTY_VERSION}
     restart: unless-stopped
-    user: "1000:1000"
+    user: "${COPYPARTY_USER}"
     volumes:
-      - ./:/cfg:z
+      - ./copyparty.conf:/cfg/copyparty.conf:z
       - "${COPYPARTY_MEDIA_PATH}:/w:z"
     environment:
+      UMASK: "002"
       LD_PRELOAD: /usr/lib/libmimalloc-secure.so.NOPE
       PYTHONUNBUFFERED: 1
     stop_grace_period: 15s
@@ -25,7 +26,7 @@ services:
   tailscale:
     image: tailscale/tailscale:${TAILSCALE_VERSION}
     restart: unless-stopped
-    hostname: ${TAILSCALE_HOSTNAME}
+    hostname: ${TAILSCALE_MACHINE_NAME}
     ports:
       - ${COPYPARTY_PORT}:3923
     environment:

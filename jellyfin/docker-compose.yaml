@@ -7,9 +7,9 @@ services:
   jellyfin:
     image: jellyfin/jellyfin:${JELLYFIN_VERSION}
     restart: unless-stopped
-    user: '1000:1000'
+    user: "${JELLYFIN_USER}"
     environment:
-      UMASK: '002'
+      UMASK: "002"
       JELLYFIN_PublishedServerUrl: ${JELLYFIN_PUBLISHED_URL}
     volumes:
       - "${JELLYFIN_CONFIG_PATH}:/config"
@@ -20,7 +20,7 @@ services:
   tailscale:
     image: tailscale/tailscale:${TAILSCALE_VERSION}
     restart: unless-stopped
-    hostname: ${TAILSCALE_HOSTNAME}
+    hostname: ${TAILSCALE_MACHINE_NAME}
     ports:
       - "${JELLYFIN_PORT}:8096/tcp"
       - "7359:7359/udp"

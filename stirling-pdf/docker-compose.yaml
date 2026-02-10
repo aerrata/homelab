@@ -5,17 +5,17 @@ configs:
       {"TCP":{"443":{"HTTPS":true}},"Web":{"$${TS_CERT_DOMAIN}:443":{"Handlers":{"/":{"Proxy":"http://127.0.0.1:${TAILSCALE_PORT}"}}}},"AllowFunnel":{"$${TS_CERT_DOMAIN}:443":false}}
 services:
   stirling-pdf:
-    image: stirlingtools/stirling-pdf:${STIRLING_PDF_VERSION}
+    image: stirlingtools/stirling-pdf:${STIRLINGPDF_VERSION}
     volumes:
-      - ${STIRLING_PDF_APP_PATH}:/configs
+      - ${STIRLINGPDF_CONFIG_PATH}:/configs
     restart: unless-stopped
     network_mode: service:tailscale
   tailscale:
     image: tailscale/tailscale:${TAILSCALE_VERSION}
     restart: unless-stopped
-    hostname: ${TAILSCALE_HOSTNAME}
+    hostname: ${TAILSCALE_MACHINE_NAME}
     ports:
-      - "${STIRLING_PDF_PORT}:8080"
+      - "${STIRLINGPDF_PORT}:8080"
     environment:
       - TS_AUTHKEY=${TAILSCALE_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale

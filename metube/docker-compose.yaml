@@ -7,16 +7,16 @@ services:
   metube:
     image: ghcr.io/alexta69/metube:${METUBE_VERSION}
     restart: unless-stopped
-    user: '1000:1000'
+    user: "${METUBE_USER}"
     environment:
-      UMASK: '002'
+      UMASK: "002"
     volumes:
       - "${METUBE_DOWNLOADS_PATH}:/downloads"
     network_mode: service:tailscale
   tailscale:
     image: tailscale/tailscale:${TAILSCALE_VERSION}
     restart: unless-stopped
-    hostname: ${TAILSCALE_HOSTNAME}
+    hostname: ${TAILSCALE_MACHINE_NAME}
     ports:
       - "${METUBE_PORT}:8081"
     environment:
