@@ -64,4 +64,3 @@ services:
         target: /config/serve.json
     volumes:
       - ${TAILSCALE_STATE_PATH}:/var/lib/tailscale
-    
