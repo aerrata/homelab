@@ -14,7 +14,7 @@ services:
     volumes:
       - "${JELLYFIN_CONFIG_PATH}:/config"
       - "${JELLYFIN_CACHE_PATH}:/cache"
-      - "${JELLYFIN_FONTS_PATH}:/usr/local/share/fonts/custom:ro"
+      # - "${JELLYFIN_FONTS_PATH}:/usr/local/share/fonts/custom:ro"
       - "${JELLYFIN_MEDIA_PATH}:/media"
     network_mode: service:tailscale
   tailscale:
