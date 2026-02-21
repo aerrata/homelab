@@ -17,15 +17,22 @@ services:
       DB_DATABASE_NAME: ${POSTGRES_DATABASE_NAME}
       DB_USERNAME: ${POSTGRES_USERNAME}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
+      IMMICH_WORKERS: 1
     volumes:
       - "${IMMICH_MEDIA_PATH}:/data"
       - /etc/localtime:/etc/localtime:ro
     network_mode: service:tailscale
+    cpus: 2.0
+    mem_limit: 4g
   machine-learning:
     image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_ML_VERSION}
     restart: unless-stopped
     volumes:
       - "${IMMICH_CACHE_PATH}:/cache"
+    environment:
+      MACHINE_LEARNING_WORKERS: 1
+    cpus: 1.5
+    mem_limit: 3g
   postgres:
     image: ghcr.io/immich-app/postgres:${POSTGRES_VERSION}
     restart: unless-stopped
