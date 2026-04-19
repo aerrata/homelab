@@ -5,12 +5,13 @@ configs:
       {"TCP":{"443":{"HTTPS":true}},"Web":{"$${TS_CERT_DOMAIN}:443":{"Handlers":{"/":{"Proxy":"http://127.0.0.1:${TAILSCALE_PORT}"}}}},"AllowFunnel":{"$${TS_CERT_DOMAIN}:443":false}}
 services:
   lidarr:
-    image: lscr.io/linuxserver/lidarr:${LIDARR_VERSION}
+    image: ghcr.io/hotio/lidarr:${LIDARR_VERSION}
     restart: unless-stopped
     environment:
-      PUID: "${LIDARR_PUID}"
-      PGID: "${LIDARR_PGID}"
-      UMASK: "002"
+      - PUID=${LIDARR_PUID}
+      - PGID=${LIDARR_PGID}
+      - UMASK=002
+      - WEBUI_PORTS=8686/tcp
     volumes:
       - "${LIDARR_CONFIG_PATH}:/config"
       - "${LIDARR_DATA_PATH}:/data"
