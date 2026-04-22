@@ -15,6 +15,7 @@ services:
     volumes:
       - "${LIDARR_CONFIG_PATH}:/config"
       - "${LIDARR_DATA_PATH}:/data"
+      - "${QBITTORRENT_DOWNLOADS_PATH}:/downloads"
     network_mode: service:tailscale
     depends_on:
       - tailscale
