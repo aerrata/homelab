@@ -2,7 +2,7 @@ name: vaultwarden
 configs:
   serve.json:
     content: |
-      {"TCP":{"443":{"HTTPS":true}},"Web":{"$${TS_CERT_DOMAIN}:443":{"Handlers":{"/":{"Proxy":"http://127.0.0.1:${TAILSCALE_PORT}"}}}},"AllowFunnel":{"$${TS_CERT_DOMAIN}:443":false}}
+      {"TCP":{"443":{"HTTPS":true}},"Web":{"$${TS_CERT_DOMAIN}:443":{"Handlers":{"/":{"Proxy":"http://127.0.0.1:${TAILSCALE_PORT}"}}}},"AllowFunnel":{"$${TS_CERT_D>
 services:
   vaultwarden:
     image: vaultwarden/server:${VAULTWARDEN_VERSION}
@@ -11,6 +11,8 @@ services:
     environment:
       UMASK: "002"
       DOMAIN: ${VAULTWARDEN_DOMAIN}
+      SIGNUPS_ALLOWED: false
+      INVITATIONS_ALLOWED: false
     volumes:
       - "${VAULTWARDEN_DATA_PATH}:/data"
     network_mode: service:tailscale
@@ -34,4 +36,3 @@ services:
         target: /config/serve.json
     volumes:
       - ${TAILSCALE_STATE_PATH}:/var/lib/tailscale
-
