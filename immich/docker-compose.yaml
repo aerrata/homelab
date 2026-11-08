@@ -11,6 +11,7 @@ services:
     depends_on:
       - redis
       - postgres
+      - immich-machine-learning
     environment:
       UMASK: "002"
       DB_HOSTNAME: postgres
@@ -24,14 +25,21 @@ services:
     network_mode: service:tailscale
     cpus: 2.0
     mem_limit: 4g
-  machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_ML_VERSION}
+  immich-machine-learning:
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_ML_VERSION}-cuda
     restart: unless-stopped
     volumes:
       - "${IMMICH_CACHE_PATH}:/cache"
     environment:
       MACHINE_LEARNING_WORKERS: 1
-    cpus: 1.5
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    cpus: 2.0
     mem_limit: 3g
   postgres:
     image: ghcr.io/immich-app/postgres:${POSTGRES_VERSION}
