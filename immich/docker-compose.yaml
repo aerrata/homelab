@@ -26,19 +26,13 @@ services:
     cpus: 2.0
     mem_limit: 4g
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_ML_VERSION}-openvino
-    restart: unless-stopped
+    container_name: immich_machine_learning
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_ML_VERSION}
     volumes:
       - "${IMMICH_CACHE_PATH}:/cache"
-      - /dev/bus/usb:/dev/bus/usb
-    devices:
-      - /dev/dri:/dev/dri
-    device_cgroup_rules:
-      - 'c 189:* rmw'
-    environment:
-      MACHINE_LEARNING_WORKERS: 1
-    cpus: 2.0
-    mem_limit: 3g
+    restart: unless-stopped
+    healthcheck:
+      disable: false
   postgres:
     image: ghcr.io/immich-app/postgres:${POSTGRES_VERSION}
     restart: unless-stopped
