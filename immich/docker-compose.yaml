@@ -26,19 +26,17 @@ services:
     cpus: 2.0
     mem_limit: 4g
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_ML_VERSION}-cuda
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_ML_VERSION}-openvino
     restart: unless-stopped
     volumes:
       - "${IMMICH_CACHE_PATH}:/cache"
+      - /dev/bus/usb:/dev/bus/usb
+    devices:
+      - /dev/dri:/dev/dri
+    device_cgroup_rules:
+      - 'c 189:* rmw'
     environment:
       MACHINE_LEARNING_WORKERS: 1
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
     cpus: 2.0
     mem_limit: 3g
   postgres:
